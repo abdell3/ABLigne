@@ -5,15 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use App\Services\TagService;
+use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+
+    protected $tagService;
+
+    public function __construct(TagService $tagService)
+    {
+        $this->tagService = $tagService;
+    }
+
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $request->validate([
+            'per_page' => 'nullable|integer|min:1|max:100',
+        ]);
+
+        
+        $perPage = $request->input('per_page', 10);
+        $tags = $this->tagService->getAllTag()->paginate($perPage);
+
+        return response()->json($tags);
     }
 
     /**
@@ -29,15 +49,18 @@ class TagController extends Controller
      */
     public function store(StoreTagRequest $request)
     {
-        //
+        $tag = $this->tagService->createTag($request->validated());
+        return response()->json($tag, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tag $tag)
+    public function show(Tag $tagId)
     {
-        //
+        $tag = $this->tagService->getTagById($tagId);
+
+        return response()->json($tag);
     }
 
     /**
@@ -51,16 +74,20 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTagRequest $request, Tag $tag)
+    public function update(UpdateTagRequest $request, Tag $tagId)
     {
-        //
+        $tag = $this->tagService->updateTag($request->validated(), $tagId);
+
+        return response()->json($tag);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tag $tag)
+    public function destroy(Tag $tagId)
     {
-        //
+        $this->tagService->deleteTag($tagId);
+
+        return response()->json($tagId);
     }
 }
