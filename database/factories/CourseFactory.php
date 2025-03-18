@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,22 @@ class CourseFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+     protected $model = Course::class;
+
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->sentence,
+            'slug' => $this->faker->slug,
+            'description' => $this->faker->paragraph,
+            'couverture' => $this->faker->imageUrl,
+            'langague' => $this->faker->randomElement(['fr', 'en', 'es', 'de']),
+            'duration' => $this->faker->numberBetween(1, 20),
+            'difficulty_level' => $this->faker->randomElement(['débutant', 'intermédiare', 'avancé']),
+            'status' => $this->faker->randomElement(['ouvert', 'en cours', 'terminé']),
+            'category_id' => \App\Models\Category::factory(),
+            'sub_category_id' => \App\Models\SubCategory::factory(), 
         ];
     }
 }

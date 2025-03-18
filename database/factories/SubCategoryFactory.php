@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,11 +14,16 @@ class SubCategoryFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
-     */
+    */
+    protected $model = SubCategory::class;
+
+
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word,
+            'description' => $this->faker->sentence,
+            'category_id' => \App\Models\Category::factory(), 
         ];
     }
 }
