@@ -42,4 +42,10 @@ class SubCategoryRepository implements SubCategoryRepositoryInterface
     {
         return SubCategory::destroy($SubCategoryId);
     }
+
+
+    public function deleteSubCategoriesByCategoryId($categoryId)
+    {
+        return SubCategory::where('category_id', $categoryId)->delete();
+    }
 }

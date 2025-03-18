@@ -45,4 +45,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+
+    public function getJwtId()
+    {
+        return $this->getKey();
+    }
+
+
+    public function getJwtCustom()
+    {
+        return [];
+    }
 }

@@ -50,5 +50,15 @@ class CourseService
         return $this->courseRepository->deleteCourse($courseId);
     }
 
+    public function getCourseCountByStatus()
+    {
+        return $this->courseRepository->getCoursesCountStatus();
+    }
+
+    public function ditribution()
+    {
+        return $this->courseRepository->getCourseDistributionByCategoryAndSubCategory();
+    }
+
 
 }
