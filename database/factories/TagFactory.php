@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,13 @@ class TagFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+    protected $model = SubCategory::class; 
+
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word,
         ];
     }
 }
