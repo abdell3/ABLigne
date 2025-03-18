@@ -28,6 +28,12 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SubCategoryRepositoryInterface::class, SubCategoryRepository::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
 
+        $this->app->bind(CategoryRepositoryInterface::class, function ($app) {
+            return new CategoryRepository(
+                $app->make(SubCategoryRepositoryInterface::class)
+            );
+        });
+
 
 
         $this->app->bind(CategoryService::class, function ($app) {

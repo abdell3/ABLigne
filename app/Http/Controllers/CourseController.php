@@ -97,4 +97,15 @@ class CourseController extends Controller
         return response()->json(null, 204);
 
     }
+
+    public function getStatistique()
+    {
+        $courseCountByStatus = $this->courseService->getCourseCountByStatus();
+        $courseDistribution = $this->courseService->ditribution();
+
+        return response()->json([
+            'course_count_by_status' => $courseCountByStatus,
+            'course_distribution' => $courseDistribution,
+        ]);
+    }
 }

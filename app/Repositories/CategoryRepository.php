@@ -4,17 +4,23 @@ namespace App\Repositories;
 
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
-
+use App\SubCategoryRepository;
 
 class CategoryRepository implements CategoryRepositoryInterface
 
 {
+
+
+    protected $subCategoryRepository;
+
+
     /**
      * Create a new class instance.
      */
-    public function __construct()
+    public function __construct(SubCategoryRepository $subCategoryRepository)
     {
-        
+        $this->subCategoryRepository = $subCategoryRepository;
+
     }
     
     public function getAllCategory()
@@ -41,6 +47,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function deleteCategory($Categoryid)
     {
+        $this->subCategoryRepository->deleteSubCategoriesByCategoryId($Categoryid);
         return Category::destroy($Categoryid);
     }
 
