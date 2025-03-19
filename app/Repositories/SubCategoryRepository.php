@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Repositories;
 
-use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Repositories\Interfaces\SubCategoryRepositoryInterface;
 use App\Models\SubCategory;
 
 class SubCategoryRepository implements SubCategoryRepositoryInterface
