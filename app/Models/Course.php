@@ -21,7 +21,8 @@ class Course extends Model
         'duration', 
         'difficulty_level', 
         'category_id', 
-        'sub_category_id'
+        'sub_category_id',
+        'mentor_id'
     ];
 
 
@@ -42,5 +43,9 @@ class Course extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function mentor()
+    {
+        return $this->hasOne(Mentor::class);
+    }
     
 }
