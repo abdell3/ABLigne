@@ -2,18 +2,22 @@
 
 namespace App\Providers;
 
-use App\Interfaces\CategoryRepositoryInterface;
-use App\Interfaces\CourseRepositoryInterface;
-use App\Interfaces\Interfaces\TagRepositoryInterface;
-use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\MentorRepositoryInterface;
+use App\Repositories\Interfaces\TagRepositoryInterface;
+use App\Repositories\Interfaces\StudentRepositoryInterface;
+use App\Repositories\Interfaces\SubCategoryRepositoryInterface;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CourseRepository;
 use App\Repositories\TagRepository;
+use App\Repositories\SubCategoryRepository;
 use App\Services\CategoryService;
 use App\Services\CourseService;
+use App\Services\MentorService;
+use App\Services\StudentService;
 use App\Services\TagService;
-use App\SubCategoryRepository;
-use App\SubCategoryService;
+use App\Services\SubCategoryService;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -50,6 +54,14 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TagService::class, function ($app){
             return new TagService($app->make(TagRepositoryInterface::class));
+        });
+
+        $this->app->bind(StudentService::class, function ($app){
+            return new StudentService($app->make(StudentRepositoryInterface::class));
+        });
+
+        $this->app->bind(MentorService::class, function ($app){
+            return new MentorService($app->make(MentorRepositoryInterface::class));
         });
 
     }

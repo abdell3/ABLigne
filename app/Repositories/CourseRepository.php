@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Models\Course;
 use Illuminate\Support\Facades\DB;
 

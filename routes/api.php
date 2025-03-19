@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MentorController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TagController;
 
 
@@ -46,6 +48,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/tags/{id}', [TagController::class, 'update']);
     Route::delete('/tags/{id}', [TagController::class, 'destroy']);
 
+    Route::apiResource('students', StudentController::class);
+
+    Route::apiResource('mentors', MentorController::class);
 
     Route::get('/courses/statistics', [CourseController::class, 'getStatistics']);
 });

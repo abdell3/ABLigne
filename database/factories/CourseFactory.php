@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Course;
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,8 +31,8 @@ class CourseFactory extends Factory
             'duration' => $this->faker->numberBetween(1, 20),
             'difficulty_level' => $this->faker->randomElement(['débutant', 'intermédiare', 'avancé']),
             'status' => $this->faker->randomElement(['ouvert', 'en cours', 'terminé']),
-            'category_id' => \App\Models\Category::factory(),
-            'sub_category_id' => \App\Models\SubCategory::factory(), 
+            'category_id' => Category::factory(),
+            'sub_category_id' => SubCategory::factory(), 
         ];
     }
 }

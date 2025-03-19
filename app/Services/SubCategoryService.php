@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Services;
+
+use App\Repositories\SubCategoryRepository;
 
 class SubCategoryService
 {

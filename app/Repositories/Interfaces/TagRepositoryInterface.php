@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces\Interfaces;
+namespace App\Repositories\Interfaces;
 
 interface TagRepositoryInterface
 {

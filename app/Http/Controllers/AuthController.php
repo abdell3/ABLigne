@@ -11,9 +11,9 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $user = User::create($request->validated());
+        $user = User::create($request->all());
 
-        $token = JWTAuth::fromUser($user);
+       $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'user' => $user,
