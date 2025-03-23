@@ -19,13 +19,14 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function getAllCourses()
     {
-        return Course::query()->get();
+        // return Course::query()->get();
+        return Course::with(['slug', 'category', 'subCategory', 'tags'])->get();
     }
 
 
     public function getCourseById($courseId)
     {
-        return Course::findOrFail($courseId) ;
+        return Course::with(['slug', 'category', 'subCategory','tags',])->findOrFail($courseId) ;
     }
 
     public function createCourse(array $data)
@@ -54,13 +55,16 @@ class CourseRepository implements CourseRepositoryInterface
 
     }
 
-    public function updateCourse(array $data, Course $course)
+    public function updateCourse(array $data, $course)
     {
         return DB::transaction(function () use ($course, $data) {
             $course->update([
                 'title' => $data['title'] ?? $course->title,
                 'slug' => $data['slug'] ?? $course->slug,
                 'description' => $data['description'] ?? $course->description,
+                'couverture' => $data['couverture'] ?? $course->couverture,
+                'langague' => $data['langague'] ?? $course->langague,
+                'status' => $data['status'] ?? $course->status,
                 'duration' => $data['duration'] ?? $course->duration,
                 'difficulty_level' => $data['difficulty_level'] ?? $course->difficulty_level,
                 'category_id' => $data['category_id'] ?? $course->category_id,
@@ -79,6 +83,7 @@ class CourseRepository implements CourseRepositoryInterface
     {
         return Course::destroy($courseId);
     }
+
 
 
     public function getCoursesCountStatus()
