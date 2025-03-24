@@ -11,7 +11,7 @@ class StoreVideoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreVideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'course_id' => 'required|exists:courses,id',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'url' => 'required|url',
+            'duration' => 'nullable|integer',
         ];
     }
 }

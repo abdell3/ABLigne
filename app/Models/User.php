@@ -78,7 +78,7 @@ class User extends Authenticatable implements JWTSubject
     }
     public function hasPermission($permission)
     {
-        return $this->permissions()->contains('name', $permission);
+        return $this->permissions()->where('name', $permission);
     }
 
 
