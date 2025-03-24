@@ -12,6 +12,11 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface
         return Enrollment::create($data);
     }
 
+    function updateStatus(Enrollment $enrollment, string $status)
+    {
+        $enrollment->update(['status' => $status]);
+        return $enrollment;
+    }
 
     function findById(int $id)
     {
@@ -35,11 +40,6 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface
     {
         return Enrollment::where('user_id', $userId)->get();
     }
-
-
-    function updateStatus(Enrollment $enrollment, string $status)
-    {
-        $enrollment->update(['status' => $status]);
-        return $enrollment;
-    }
+    
+    
 }
