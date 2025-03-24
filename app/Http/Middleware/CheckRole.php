@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
@@ -20,6 +21,21 @@ class CheckRole
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
+        if(!Auth::check())
+        {
+            return response()->json(['message' => 'non autorise'], 401);
+        }
+
+        $user = Auth::user();
+        if(!$user->hasRole($role))
+        {
+            return response()->json(['message' => 'acces refuser'], 403);
+        }
+
+
         return $next($request);
     }
+
+    
+
 }

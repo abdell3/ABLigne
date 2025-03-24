@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TagController;
@@ -47,6 +48,24 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/tags/{id}', [TagController::class, 'show']);
     Route::put('/tags/{id}', [TagController::class, 'update']);
     Route::delete('/tags/{id}', [TagController::class, 'destroy']);
+
+
+    Route::get('/enrollments', [EnrollmentController::class, 'getAllEnrollments'])
+         ->middleware('can:view-all-enrollments');
+
+    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
+         ->middleware('can:view-course-enrollments');
+
+    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
+         ->middleware('can:view-course-enrollments');
+
+    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
+         ->middleware('can:view-course-enrollments');
+
+    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
+         ->middleware('can:view-course-enrollments');
+
+
 
     Route::apiResource('students', StudentController::class);
 

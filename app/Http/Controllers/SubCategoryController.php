@@ -6,7 +6,7 @@ use App\Models\SubCategory;
 use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
 use Illuminate\Http\Request;
-use App\SubCategoryService;
+use App\Services\SubCategoryService;
 
 class SubCategoryController extends Controller
 {
