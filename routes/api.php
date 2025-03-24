@@ -11,8 +11,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TagController;
-
-
+use App\Http\Controllers\VideoController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -51,25 +50,37 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('/enrollments', [EnrollmentController::class, 'getAllEnrollments'])
-         ->middleware('can:view-all-enrollments');
+         ->middleware('view-all-enrollments');
 
     Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('can:view-course-enrollments');
+         ->middleware('view-course-enrollments');
 
     Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('can:view-course-enrollments');
+         ->middleware('view-course-enrollments');
 
     Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('can:view-course-enrollments');
+         ->middleware('view-course-enrollments');
 
     Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('can:view-course-enrollments');
+         ->middleware('view-course-enrollments');
 
+    
+    Route::post('/videos', [VideoController::class, 'store'])
+    ->middleware('mentor,admin');
+    Route::put('/videos/{video}', [VideoController::class, 'update'])
+    ->middleware('mentor,admin');
+    Route::delete('/videos/{video}', [VideoController::class, 'destroy'])
+    ->middleware(':mentor,admin');
+
+    
+    Route::get('/courses/{course}/videos', [VideoController::class, 'index'])
+    ->middleware('view-course,video');
 
 
     Route::apiResource('students', StudentController::class);
 
     Route::apiResource('mentors', MentorController::class);
 
-    Route::get('/courses/statistics', [CourseController::class, 'getStatistics']);
+    Route::get('/courses/statistics', [CourseController::class, 'getStatistics'])
+    ->middleware('view-statistique');
 });

@@ -14,26 +14,43 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, $roles): Response
     {
 
-        if (!$request->user()->hasRole($role)) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        $user =Auth::user();
 
-        if(!Auth::check())
+        if(!$user)
         {
-            return response()->json(['message' => 'non autorise'], 401);
+            return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $user = Auth::user();
-        if(!$user->hasRole($role))
+        foreach($roles as $role)
         {
-            return response()->json(['message' => 'acces refuser'], 403);
+            if($user->hasRole($role))
+            {
+                return $next($request);
+            }
         }
 
 
-        return $next($request);
+
+        // if (!$request->user()->hasRole($role)) {
+        //     return response()->json(['error' => 'Unauthorized'], 403);
+        // }
+
+        // if(!Auth::check())
+        // {
+        //     return response()->json(['message' => 'non autorise'], 401);
+        // }
+
+        // $user = Auth::user();
+        // if(!$user->hasRole($role))
+        // {
+        //     return response()->json(['message' => 'acces refuser'], 403);
+        // }
+
+
+        return response()->json(['error' => 'Forbidden - Insufficient permissions'], 403);
     }
 
     
