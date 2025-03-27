@@ -24,19 +24,16 @@ class CheckRole
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        foreach($roles as $role)
-        {
-            if($user->hasRole($role))
-            {
-                return $next($request);
-            }
+        if (!$user->hasRole($roles)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
 
 
-        // if (!$request->user()->hasRole($role)) {
-        //     return response()->json(['error' => 'Unauthorized'], 403);
-        // }
+
+
+
+
 
         // if(!Auth::check())
         // {

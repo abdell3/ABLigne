@@ -25,13 +25,6 @@ class VideoService
 
     public function createVideo($data)
     {
-
-        if(!Auth::user()->hasRole(['mentor', 'admin']))
-        {
-            throw new \Exception('vous avez pas le droit de creer video');
-        }
-
-
         return $this->videoRepository->create($data);
     }
 

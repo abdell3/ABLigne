@@ -22,7 +22,7 @@ class EnrollmentController extends Controller
         $this->enrollmentService = $enrollmentService;
     }
 
-    public function requestEnrollment(Request $request, $courseId)
+    public function storeEnrollment(Request $request, $courseId)
     {
         $enrollment = $this->enrollmentService->createEnrollment($courseId);
 
