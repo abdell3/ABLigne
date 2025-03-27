@@ -13,8 +13,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::factory()->create(['name' => 'admin']);
-        Role::factory()->create(['name' => 'mentor']);
-        Role::factory()->create(['name' => 'student']);
+        // Role::factory()->create(['name' => 'admin']);
+        // Role::factory()->create(['name' => 'mentor']);
+        // Role::factory()->create(['name' => 'student']);
     }
 }

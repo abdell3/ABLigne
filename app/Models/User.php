@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Student;
+use App\Models\Mentor;
+use App\Models\Role;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -69,16 +72,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function permissions()
     {
-        return $this->roles->map()->permissions->flatten()->unique();
+        // return $this->roles->map()->permissions->flatten()->unique();
+
+        return $this->roles()->with('permissions')->get()
+        ->pluck('permissions')
+        ->flatten()
+        ->unique('id');
     }
 
     public function hasRole($role)
     {
-        return $this->roles()->where('user_role', $role)->exists();
+        return $this->roles()->where('user_id', $role)->exists();
     }
     public function hasPermission($permission)
     {
-        return $this->permissions()->where('name', $permission);
+        return $this->permissions()->where('name', $permission)->isNotEmpty();
     }
 
 
@@ -111,6 +119,13 @@ class User extends Authenticatable implements JWTSubject
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class, 'user_badge')
+            ->withPivot('earned_at')
+            ->withTimestamps();
     }
 
 

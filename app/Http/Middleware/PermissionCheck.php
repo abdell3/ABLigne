@@ -25,7 +25,7 @@ class PermissionCheck
 
         if (!$user->hasPermission($permission))
         {
-            return response()->json(['error' => 'Forbidden - Permission non']);
+            return response()->json(['error' => 'Permission non']);
         }
 
         return $next($request);

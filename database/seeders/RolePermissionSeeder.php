@@ -38,9 +38,23 @@ class RolePermissionSeeder extends Seeder
         $admin->permissions()->attach(Permission::all());
 
         $mentor = Role::where('name', 'mentor')->first();
-        $mentor->permissions()->attach(Permission::whereIn('name', ['create-course', 'edit-course', 'delete_course', 'view-course', 'view-course-enrollments', 'view-statistique'])->get());
+        $mentor->permissions()->attach(Permission::whereIn('name', [
+            'create-course',
+            'edit-course', 
+            'delete_course', 
+            'view-course', 
+            'view-enrollments', 
+            'view-statistique', 
+            'create-video',
+            'edit-video',
+            'delete-video',
+            'update-enrollment'
+        ])->get());
 
         $student = Role::where('name', 'student')->first();
-        $student->permissions()->attach(Permission::where('name', ['view-course', 'view-video'])->get());
+        $student->permissions()->attach(Permission::where('name', [
+            'view-course', 
+            'view-video'
+        ])->get());
     }
 }

@@ -25,7 +25,7 @@ class VideoController extends Controller
 
     public function index($courseId)
     {
-        
+
         $video = $this->videoService->getCourseVideos($courseId);
 
         return response()->json($video);

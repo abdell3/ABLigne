@@ -1,7 +1,9 @@
 <?php
 
 
+
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -34,47 +36,51 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/sub-categories/{id}', [SubCategoryController::class, 'show']);
     Route::put('/sub-categories/{id}', [SubCategoryController::class, 'update']);
     Route::delete('/sub-categories/{id}', [SubCategoryController::class, 'destroy']);
-
-
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::post('/courses', [CourseController::class, 'store']);
-    Route::get('/courses/{course}', [CourseController::class, 'show']);
-    Route::put('/courses/{course}', [CourseController::class, 'update']);
-    Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
-
     Route::get('/tags', [TagController::class, 'index']);
     Route::post('/tags', [TagController::class, 'store']);
     Route::get('/tags/{id}', [TagController::class, 'show']);
     Route::put('/tags/{id}', [TagController::class, 'update']);
     Route::delete('/tags/{id}', [TagController::class, 'destroy']);
 
+     Route::prefix('courses')->group(function (){
+          Route::get('/', [CourseController::class, 'index']);
+          Route::post('/', [CourseController::class, 'store'])
+               ->middleware(['role:mentor']);
+          Route::get('/{course}', [CourseController::class, 'show']);
+          Route::put('/{course}', [CourseController::class, 'update'])
+               ->Middleware('permission:edit-course');
+          Route::delete('/courses/{course}', [CourseController::class, 'destroy'])
+               ->middleware('permission:delete-course');
+          Route::get('/{course}/videos', [VideoController::class, 'index']);
+          Route::post('/{course}/videos', [VideoController::class, 'store'])
+                    ->middleware('permission:create-video');
 
-    Route::get('/enrollments', [EnrollmentController::class, 'getAllEnrollments'])
-         ->middleware('view-all-enrollments');
+     });
 
-    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('view-course-enrollments');
 
-    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('view-course-enrollments');
-
-    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('view-course-enrollments');
-
-    Route::get('/courses/{course}/enrollments', [EnrollmentController::class, 'getCourseEnrollments'])
-         ->middleware('view-course-enrollments');
+     Route::prefix('enrollments')->group(function (){
+          Route::get('/', [EnrollmentController::class, 'getAllEnrollment'])
+               ->middleware('permission:view-enrollments');
+ 
+          Route::post('/{course}/enrollment', [EnrollmentController::class, 'storeEnrollment']);
+          
+          Route::put('/{enrollments}', [EnrollmentController::class, 'updateEnrollment'])
+               ->middleware('permission:update-enrollments');
+     })  ;   
 
     
-    Route::post('/videos', [VideoController::class, 'store'])
-    ->middleware('mentor,admin');
-    Route::put('/videos/{video}', [VideoController::class, 'update'])
-    ->middleware('mentor,admin');
-    Route::delete('/videos/{video}', [VideoController::class, 'destroy'])
-    ->middleware(':mentor,admin');
+    Route::prefix('videos')->group(function (){
+
+         Route::post('/', [VideoController::class, 'store'])
+               ->middleware(['role:mentor','permission:create-video']);
+         Route::put('/{video}', [VideoController::class, 'update'])
+               ->middleware('permission:edit-video');
+         Route::delete('/videos/{video}', [VideoController::class, 'destroy'])
+               ->middleware('permission:delete-video');
+    });
+    
 
     
-    Route::get('/courses/{course}/videos', [VideoController::class, 'index'])
-    ->middleware('view-course,video');
 
 
     Route::apiResource('students', StudentController::class);
